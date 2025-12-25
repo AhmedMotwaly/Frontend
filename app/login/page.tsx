@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import GoogleButton from "@/components/google-button"; // <--- IMPORTED HERE
+import GoogleButton from "@/components/google-button"; 
 import { Mail, Lock, Loader2, AlertTriangle, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
@@ -22,9 +22,21 @@ export default function LoginPage() {
     setIsLoading(true);
     setError("");
 
+    // 1. STRICT: Get API URL from Environment Variable
+    // If this is missing (undefined), the app will stop here safe.
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+    if (!API_URL) {
+      setError("Configuration Error: NEXT_PUBLIC_API_URL is missing.");
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      // 1. Send Login Request
-      const res = await fetch("http://localhost:3000/api/auth/login", {
+      // 2. Send Login Request to AWS
+      // We use the variable + "/auth/login" (Removing '/api' to match your API domain)
+      // Result: https://api.autobuyguard.store/auth/login
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -36,15 +48,16 @@ export default function LoginPage() {
         throw new Error(data.error || "Invalid credentials");
       }
 
-      // 2. Success: Save Token
+      // 3. Success: Save Token
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify({ userId: data.userId, email: data.email }));
 
-      // 3. Redirect to Dashboard
+      // 4. Redirect to Dashboard
       router.push("/dashboard");
 
     } catch (err: any) {
-      setError(err.message);
+      console.error("Login failed:", err);
+      setError(err.message || "Connection failed. Please check your internet.");
     } finally {
       setIsLoading(false);
     }
