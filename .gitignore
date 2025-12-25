@@ -1,0 +1,14 @@
+# Dependencies
+/node_modules
+
+# Production & Build
+/.next
+/out
+/build
+/dist
+
+# Security & Secrets (IMPORTANT)
+.env
+.env.local
+.env.production
+.env.development
