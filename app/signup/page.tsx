@@ -65,7 +65,13 @@ export default function SignupPage() {
         body: JSON.stringify({ email: formData.email, code: formData.code }),
       });
 
-      const data = await res.json();
+      if (!res.ok) {
+  const text = await res.text();
+  throw new Error(text);
+}
+
+const data = await res.json();
+
 
       if (!res.ok) throw new Error(data.error || "Verification failed");
 
