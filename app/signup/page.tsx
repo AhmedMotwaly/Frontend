@@ -59,11 +59,11 @@ export default function SignupPage() {
     setError("");
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email, code: formData.code }),
-      });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/verify`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email: formData.email, code: formData.code }),
+});
 
       if (!res.ok) {
   const text = await res.text();
