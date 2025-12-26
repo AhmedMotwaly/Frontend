@@ -24,7 +24,7 @@ export default function DashboardClient() {
   const [userProfile, setUserProfile] = useState<any>(null);
   
   const [loading, setLoading] = useState(true);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const fetchData = async () => {

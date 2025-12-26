@@ -20,7 +20,7 @@ export default function ForgotPasswordClient() {
   const [newPassword, setNewPassword] = useState("");
 
   // USE AWS URL
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   // Step 1: Request Code
   const handleRequest = async (e: React.FormEvent) => {
