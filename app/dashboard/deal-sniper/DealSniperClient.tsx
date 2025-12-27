@@ -31,8 +31,6 @@ export default function DealSniperClient() {
       });
       const data = await res.json();
       if (Array.isArray(data)) setItems(data);
-      console.log("🔥 AMAZON PRICE DEBUG:", data.price); // <--- Add this
-      if (!res.ok) throw new Error("Failed to preview");
     } catch (err) {
       console.error("Failed to load items");
     } finally {
@@ -44,7 +42,7 @@ export default function DealSniperClient() {
     fetchItems();
   }, []);
 
-  // 2. Handle URL Paste (Auto-Preview)
+  // 2. Handle URL Paste (Auto-Preview) - WITH DEBUG
   const handlePreview = async () => {
     if (!url) return;
     setIsPreviewing(true);
@@ -60,6 +58,15 @@ export default function DealSniperClient() {
         body: JSON.stringify({ url })
       });
       const data = await res.json();
+      
+      // 🔥🔥🔥 CRITICAL DEBUG BLOCK 🔥🔥🔥
+      console.log('═══════════════════════════════════');
+      console.log('FRONTEND DEBUG - API Response:');
+      console.log('Price:', data.price, '| Type:', typeof data.price);
+      console.log('Full response:', data);
+      console.log('═══════════════════════════════════');
+      // 🔥🔥🔥 END DEBUG 🔥🔥🔥
+      
       if (!res.ok) throw new Error("Failed to preview");
       
       setPreviewData(data);
