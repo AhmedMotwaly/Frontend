@@ -31,6 +31,8 @@ export default function DealSniperClient() {
       });
       const data = await res.json();
       if (Array.isArray(data)) setItems(data);
+      console.log("🔥 AMAZON PRICE DEBUG:", data.price); // <--- Add this
+      if (!res.ok) throw new Error("Failed to preview");
     } catch (err) {
       console.error("Failed to load items");
     } finally {
